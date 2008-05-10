@@ -5,14 +5,13 @@
 
 Summary:	DSO module for the apache web server
 Name:		apache-%{mod_name}
-Version:	0.5
-Release:	%mkrel 7
+Version:	0.6
+Release:	%mkrel 1
 Group:		System/Servers
 License:	Apache License
 URL:		http://stderr.net/apache/rpaf/
-Source0:	http://stderr.net/apache/rpaf/download/%{mod_name}-%{version}.tar.bz2
-Source1:	%{mod_conf}.bz2
-Patch0:		%{mod_name}-0.4-register.patch
+Source0:	http://stderr.net/apache/rpaf/download/%{mod_name}-%{version}.tar.gz
+Source1:	%{mod_conf}
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre):	apache-conf >= 2.2.0
@@ -45,7 +44,8 @@ X-Forwared-Host header and updates the virtualhosts.
 %prep
 
 %setup -q -n %{mod_name}-%{version}
-%patch0 -p1
+
+cp %{SOURCE1} %{mod_conf}
 
 # strip away annoying ^M
 find . -type f|xargs file|grep 'CRLF'|cut -d: -f1|xargs perl -p -i -e 's/\r//'
@@ -58,16 +58,13 @@ cp mod_rpaf-2.0.c mod_rpaf.c
 %{_sbindir}/apxs -c mod_rpaf.c 
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 install -d %{buildroot}%{_libdir}/apache-extramodules
 install -d %{buildroot}%{_sysconfdir}/httpd/modules.d
 
 install -m0755 .libs/*.so %{buildroot}%{_libdir}/apache-extramodules/
-bzcat %{SOURCE1} > %{buildroot}%{_sysconfdir}/httpd/modules.d/%{mod_conf}
-
-install -d %{buildroot}%{_var}/www/html/addon-modules
-ln -s ../../../..%{_docdir}/%{name}-%{version} %{buildroot}%{_var}/www/html/addon-modules/%{name}-%{version}
+install -m0644 %{mod_conf} %{buildroot}%{_sysconfdir}/httpd/modules.d/
 
 %post
 if [ -f %{_var}/lock/subsys/httpd ]; then
@@ -82,13 +79,10 @@ if [ "$1" = "0" ]; then
 fi
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
 %doc README
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/httpd/modules.d/%{mod_conf}
 %attr(0755,root,root) %{_libdir}/apache-extramodules/%{mod_so}
-%{_var}/www/html/addon-modules/*
-
-
