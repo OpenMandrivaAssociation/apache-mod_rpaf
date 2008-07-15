@@ -3,7 +3,7 @@
 %define mod_conf 19_%{mod_name}.conf
 %define mod_so %{mod_name}.so
 
-Summary:	DSO module for the apache web server
+Summary:	Apache module changing remote ip client address for reverse proxy
 Name:		apache-%{mod_name}
 Version:	0.6
 Release:	%mkrel 3
@@ -25,7 +25,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 rpaf is for backend Apache servers what mod_proxy_add_forward is
-for frontend Apache servers. It does excactly the opposite of
+for frontend Apache servers. It does exactly the opposite of
 mod_proxy_add_forward written by Ask Bjrn Hansen. It will also
 work with mod_proxy in Apache starting with release 1.3.25 and
 mod_proxy that is distributed with Apache from version 2.0.36.
@@ -39,7 +39,7 @@ the last IP from the incoming X-Forwarded-For header and changes
 the remote address of the client in the request structure. It also
 takes the incoming X-Host header and updates the virtualhost
 settings accordingly. For Apache mod_proxy it takes the
-X-Forwared-Host header and updates the virtualhosts.
+X-Forwarded-Host header and updates the virtualhosts.
 
 %prep
 
