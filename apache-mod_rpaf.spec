@@ -6,12 +6,13 @@
 Summary:	Apache module changing remote ip client address for reverse proxy
 Name:		apache-%{mod_name}
 Version:	0.6
-Release:	%mkrel 8
+Release:	%mkrel 9
 Group:		System/Servers
 License:	Apache License
 URL:		http://stderr.net/apache/rpaf/
 Source0:	http://stderr.net/apache/rpaf/download/%{mod_name}-%{version}.tar.gz
 Source1:	%{mod_conf}
+Patch0:		mod_rpaf-0.6-ipv6fix.diff
 Requires(pre): rpm-helper
 Requires(postun): rpm-helper
 Requires(pre):	apache-conf >= 2.2.0
@@ -44,6 +45,7 @@ X-Forwarded-Host header and updates the virtualhosts.
 %prep
 
 %setup -q -n %{mod_name}-%{version}
+%patch0 -p0 -b .ipv6
 
 cp %{SOURCE1} %{mod_conf}
 
