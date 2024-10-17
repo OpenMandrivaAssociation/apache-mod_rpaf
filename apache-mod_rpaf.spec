@@ -9,7 +9,7 @@ Version:	0.6
 Release:	%mkrel 10
 Group:		System/Servers
 License:	Apache License
-URL:		http://stderr.net/apache/rpaf/
+URL:		https://stderr.net/apache/rpaf/
 Source0:	http://stderr.net/apache/rpaf/download/%{mod_name}-%{version}.tar.gz
 Source1:	%{mod_conf}
 Patch0:		mod_rpaf-0.6-ipv6fix.diff
