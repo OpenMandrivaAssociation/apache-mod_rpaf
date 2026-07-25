@@ -6,7 +6,7 @@
 Summary:	Apache module changing remote ip client address for reverse proxy
 Name:		apache-%{mod_name}
 Version:	0.6
-Release:	%mkrel 10
+Release:	11
 Group:		System/Servers
 License:	Apache License
 URL:		https://stderr.net/apache/rpaf/
